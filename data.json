@@ -8,7 +8,7 @@
     {
       "id": "danelle's-team-1776717749983",
       "name": "Danelle's Team",
-      "points": 0
+      "points": -1
     },
     {
       "id": "denitsa's-team-1776717760811",
@@ -62,6 +62,26 @@
     {
       "when": "2026-04-20T22:43:27.006Z",
       "what": "Noé's Team got +1 points"
+    },
+    {
+      "when": "2026-04-20T22:55:27.202Z",
+      "what": "Noé's Team got -1 points"
+    },
+    {
+      "when": "2026-04-20T22:55:27.648Z",
+      "what": "Noé's Team got +1 points"
+    },
+    {
+      "when": "2026-04-20T22:55:28.533Z",
+      "what": "Denitsa's Team got +1 points"
+    },
+    {
+      "when": "2026-04-20T22:55:29.283Z",
+      "what": "Danelle's Team got -1 points"
+    },
+    {
+      "when": "2026-04-20T22:55:33.001Z",
+      "what": "Denitsa's Team got -1 points"
     }
   ]
 }
