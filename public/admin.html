@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin — HI The Hague</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="band band-top"></div>
+
+  <div class="wrap">
+    <h1>Admin</h1>
+
+    <form class="add-team" onsubmit="event.preventDefault(); addTeam();">
+      <input id="new-name" placeholder="New team name" />
+      <button type="submit">Add team</button>
+    </form>
+
+    <div id="teams"></div>
+  </div>
+
+  <div class="band band-bottom"></div>
+
+  <script>
+  const teamsEl = document.getElementById('teams');
+
+  async function load() {
+    const res = await fetch('/api/teams');
+    const teams = await res.json();
+    teamsEl.innerHTML = teams.map(t => `
+      <div class="team">
+        <span class="name"></span>
+        <span class="points">${t.points}</span>
+        <button data-id="${t.id}" data-action="plus">+1</button>
+        <button data-id="${t.id}" data-action="minus">−1</button>
+        <button class="danger" data-id="${t.id}" data-action="del">×</button>
+      </div>
+    `).join('');
+
+    // set names via textContent so no quote can break anything
+    teams.forEach((t, i) => {
+      teamsEl.children[i].querySelector('.name').textContent = t.name;
+    });
+  }
+
+  // one click listener for the whole list
+  teamsEl.addEventListener('click', async (e) => {
+    const btn = e.target.closest('button[data-id]');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    const action = btn.dataset.action;
+
+    if (action === 'plus' || action === 'minus') {
+      await fetch(`/api/teams/${encodeURIComponent(id)}/points`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: action === 'plus' ? 1 : -1 })
+      });
+    } else if (action === 'del') {
+      if (!confirm('Delete this team?')) return;
+      await fetch(`/api/teams/${encodeURIComponent(id)}`, { method: 'DELETE' });
+    }
+    load();
+  });
+
+  async function addTeam() {
+    const input = document.getElementById('new-name');
+    const name = input.value.trim();
+    if (!name) return;
+    await fetch('/api/teams', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    });
+    input.value = '';
+    load();
+  }
+
+  load();
+</script>
+</body>
+</html>

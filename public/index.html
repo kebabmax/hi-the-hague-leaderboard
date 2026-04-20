@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HI The Hague — Leaderboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<header class="top">
+  <div class="band band-top"></div>
+  <h1>Intro Week 2026 Leaderboard</h1>
+</header>
+
+<div class="wrap">
+  <div id="teams"></div>
+</div>
+
+<div class="band band-bottom"></div>
+
+<script>
+  async function load() {
+    const res = await fetch('/api/teams');
+    const teams = (await res.json()).sort((a, b) => b.points - a.points);
+    document.getElementById('teams').innerHTML = teams.map((t, i) => `
+      <div class="team">
+        <span class="rank">#${i + 1}</span>
+        <span class="name">${t.name}</span>
+        <span class="points">${t.points}</span>
+      </div>
+    `).join('');
+  }
+  load();
+  setInterval(load, 3000);
+</script>
+</html>
