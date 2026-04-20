@@ -3,7 +3,7 @@
     {
       "id": "noé's-team-1776717744705",
       "name": "Noé's Team",
-      "points": 0
+      "points": 69
     },
     {
       "id": "danelle's-team-1776717749983",
@@ -44,6 +44,24 @@
       "id": "myra's-team-1776717790508",
       "name": "Myra's Team",
       "points": 0
+    }
+  ],
+  "logs": [
+    {
+      "when": "2026-04-20T22:39:19.396Z",
+      "what": "Noé's Team got -1 points"
+    },
+    {
+      "when": "2026-04-20T22:39:19.809Z",
+      "what": "Noé's Team got +1 points"
+    },
+    {
+      "when": "2026-04-20T22:43:24.249Z",
+      "what": "Noé's Team got -1 points"
+    },
+    {
+      "when": "2026-04-20T22:43:27.006Z",
+      "what": "Noé's Team got +1 points"
     }
   ]
 }
