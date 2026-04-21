@@ -130,7 +130,7 @@ body {
 }
 
 .top + .wrap {
-  padding-top: 270px;
+  padding-top: 195px;
 }
 }
 
@@ -275,5 +275,75 @@ button.danger:hover {
 }
 
 .team.just-changed {
+  animation: scoreFlash 700ms ease-out;
+}
+
+.podium {
+  display: flex;
+  gap: 20px;
+  align-items: end;
+  margin-bottom: 30px;
+}
+
+.podium-slot {
+  background: #fff;
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  border-radius: 6px;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.podium-slot .rank-label {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.podium-slot .name {
+  font-size: 18px;
+}
+
+.podium-slot .points {
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.podium-slot.gold {
+  order: 2;
+  min-height: 260px;
+  border-color: #c9a96e;
+  border-width: 4px;
+  box-shadow: 8px 8px 0 #c9a96e;
+}
+
+.podium-slot.silver {
+  order: 1;
+  min-height: 210px;
+  border-color: #a8a8a8;
+  box-shadow: 6px 6px 0 #a8a8a8;
+}
+
+.podium-slot.bronze {
+  order: 3;
+  min-height: 180px;
+  border-color: #a36e43;
+  box-shadow: 6px 6px 0 #a36e43;
+}
+
+.rest {
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* apply the flash animation to podium slots too */
+.podium-slot.just-changed {
   animation: scoreFlash 700ms ease-out;
 }

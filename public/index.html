@@ -14,8 +14,9 @@
   </header>
 
   <div class="wrap">
-    <div id="teams"></div>
-    <div class="hint">Auto-refreshes every 3 seconds</div>
+    <div class="podium" id="podium"></div>
+<div class="rest" id="rest"></div>
+    
   </div>
 
   <div class="band band-bottom"></div>
@@ -23,35 +24,48 @@
   <script>
     const prevPoints = {};
 
-    async function loadTeams() {
-      const res = await fetch('/api/teams');
-      const teams = await res.json();
+async function loadTeams() {
+  const res = await fetch('/api/teams');
+  const teams = await res.json();
 
-      const html = teams.map((t, i) => `
-        <div class="team ${i === 0 ? 'first' : ''}">
-          <div class="rank">#${i + 1}</div>
-          <div class="name">${t.name}</div>
-          <div class="points">${t.points}</div>
-        </div>
-      `).join('');
+  const podiumEl = document.getElementById('podium');
+  const restEl = document.getElementById('rest');
 
-      const teamsEl = document.getElementById('teams');
-      teamsEl.innerHTML = html || '<p>No teams yet. Add some on the admin page.</p>';
+  const top3 = teams.slice(0, 3);
+  const rest = teams.slice(3);
 
-      const firstLoad = Object.keys(prevPoints).length === 0;
-      teams.forEach((t, i) => {
-        const wasChanged = !firstLoad
-          && prevPoints[t.id] !== undefined
-          && prevPoints[t.id] !== t.points;
-        if (wasChanged) {
-          teamsEl.children[i].classList.add('just-changed');
-        }
-        prevPoints[t.id] = t.points;
-      });
+  const medals = ['gold', 'silver', 'bronze'];
+  const labels = ['1st', '2nd', '3rd'];
+
+  podiumEl.innerHTML = top3.map((t, i) => `
+    <div class="podium-slot ${medals[i]}" data-id="${t.id}">
+      <div class="rank-label">${labels[i]}</div>
+      <div class="name">${t.name}</div>
+      <div class="points">${t.points}</div>
+    </div>
+  `).join('');
+
+  restEl.innerHTML = rest.map((t, i) => `
+    <div class="team" data-id="${t.id}">
+      <div class="rank">#${i + 4}</div>
+      <div class="name">${t.name}</div>
+      <div class="points">${t.points}</div>
+    </div>
+  `).join('') || (rest.length === 0 ? '' : '');
+
+  // flash animation for changed teams (works on both podium + rest)
+  const firstLoad = Object.keys(prevPoints).length === 0;
+  teams.forEach(t => {
+    if (!firstLoad && prevPoints[t.id] !== undefined && prevPoints[t.id] !== t.points) {
+      const el = document.querySelector(`[data-id="${CSS.escape(t.id)}"]`);
+      if (el) el.classList.add('just-changed');
     }
+    prevPoints[t.id] = t.points;
+  });
+}
 
-    loadTeams();
-    setInterval(loadTeams, 3000);
+loadTeams();
+setInterval(loadTeams, 3000);
   </script>
 </body>
 </html>
