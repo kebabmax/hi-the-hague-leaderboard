@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
 
+/* ==========================================================
+   TOKENS
+   ========================================================== */
 :root {
   --yellow: #fcc10a;
   --pink:   #E8125B;
@@ -7,29 +10,53 @@
   --ink:    #1a1a1a;
 }
 
+/* ==========================================================
+   RESET / BASE
+   ========================================================== */
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  padding: 0;
+  padding: 0 0 80px;
   font-family: 'Space Grotesk', sans-serif;
   background: var(--yellow);
   color: var(--ink);
   min-height: 100vh;
 }
 
+/* ==========================================================
+   LAYOUT SHELL
+   (wrap is centered via max-width + margin, not padding)
+   ========================================================== */
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.top + .wrap { padding-top: 195px; }
+
+/* Admin page gets a wider shell */
 .wrap:has(.admin-grid) {
   max-width: 1400px;
   padding-left: 40px;
   padding-right: 40px;
-  box-sizing: border-box;
-  margin: 0 auto;  /* in case the base .wrap rule lost it */
 }
 
-.top + .wrap {
-  padding-left: 300px;
-  padding-right: 300px;
-  box-sizing: border-box;
+/* ==========================================================
+   FIXED HEADER
+   ========================================================== */
+.top {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  background: var(--yellow);
+}
+
+.top h1 {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 30px 20px;
 }
 
 h1 {
@@ -41,24 +68,38 @@ h1 {
   text-align: center;
 }
 
-.team {
-  background: #fff;
-  border: 3px solid var(--ink);
-  box-shadow: 6px 6px 0 var(--ink);
-  padding: 16px 20px;
-  margin-bottom: 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 20px;
-  font-weight: 500;
+/* ==========================================================
+   DECORATIVE BANDS
+   ========================================================== */
+.band {
+  height: 60px;
+  background-image: url('/images/geoshapes.png');
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: center;
 }
 
+.band-bottom {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 10;
+}
 
-.rank   { font-weight: 700; margin-right: 16px; min-width: 40px; }
-.name   { flex: 1; }
-.points { font-weight: 700; font-size: 24px; }
+/* Yellow cut-off overlay above the bottom band */
+body::after {
+  content: '';
+  position: fixed;
+  left: 0; right: 0;
+  bottom: 10px;
+  height: 80px;
+  background: var(--yellow);
+  z-index: 9;
+  pointer-events: none;
+}
 
+/* ==========================================================
+   BUTTONS
+   ========================================================== */
 button {
   font-family: inherit;
   font-size: 14px;
@@ -73,114 +114,20 @@ button {
 }
 button:hover { background: var(--pink); color: #fff; }
 
-.band {
-  height: 60px;
-  background-image: url('/images/geoshapes.png');
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-  background-position: center;
-}
-
-.band-bottom {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-}
-
-body {
-  padding-bottom: 80px;
-}
-
-
-.add-team {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 30px;
-}
-
-.add-team input {
-  flex: 1;
-  font-family: inherit;
-  font-size: 16px;
-  padding: 10px 14px;
-  border: 3px solid var(--ink);
-  background: #fff;
-}
-
-.add-team input:focus {
-  outline: none;
-  background: var(--yellow);
-}
-
-.top {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  background: var(--yellow);
-}
-
-.top h1 {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 30px 20px;
-}
-
-.top + .wrap {
-  padding-top: 195px;
-}
-
-
-body::after {
-  content: '';
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 10px;
-  height: 80px;
-  background: var(--yellow);
-  z-index: 9;
-  pointer-events: none;
-}
-
 button.danger {
   background: transparent;
   color: var(--pink);
   border-color: var(--pink);
 }
-button.danger:hover {
-  background: var(--pink);
-  color: #fff;
-}
+button.danger:hover { background: var(--pink); color: #fff; }
 
-.admin-link {
-  position: absolute;
-  top: 75px;
-  right: 20px;
-  background: var(--ink);
-  color: var(--yellow);
-  text-decoration: none;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 14px;
-  padding: 8px 14px;
-  border: 3px solid var(--ink);
-}
-
-.admin-link:hover {
-  background: var(--pink);
-  color: #fff;
-}
-
-.top { position: fixed; /* existing */ }  /* already set, just reminder */
-
-  .back-link {
+/* ==========================================================
+   NAV CHIPS (admin link / back link)
+   ========================================================== */
+.admin-link,
+.back-link {
   position: fixed;
   top: 75px;
-  left: 20px;
   z-index: 20;
   background: var(--ink);
   color: var(--yellow);
@@ -191,17 +138,68 @@ button.danger:hover {
   padding: 8px 14px;
   border: 3px solid var(--ink);
 }
+.admin-link { right: 20px; }
+.back-link  { left: 20px; }
+.admin-link:hover,
+.back-link:hover { background: var(--pink); color: #fff; }
 
-.back-link:hover {
-  background: var(--pink);
-  color: #fff;
+/* ==========================================================
+   TEAM ROWS
+   ========================================================== */
+.team {
+  background: #fff;
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--ink);
+  padding: 16px 20px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 500;
+}
+.rank   { font-weight: 700; margin-right: 16px; min-width: 40px; }
+.name   { flex: 1; }
+.points { font-weight: 700; font-size: 24px; }
+
+/* ==========================================================
+   ADD-TEAM FORM
+   ========================================================== */
+.add-team {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+.add-team input {
+  flex: 1;
+  min-width: 0;
+  font-family: inherit;
+  font-size: 16px;
+  padding: 10px 14px;
+  border: 3px solid var(--ink);
+  background: #fff;
+}
+.add-team input:focus {
+  outline: none;
+  background: var(--yellow);
 }
 
+/* ==========================================================
+   ADMIN GRID + LOG
+   ========================================================== */
 .admin-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   gap: 30px;
   align-items: start;
+}
+
+.admin-col,
+.log-col {
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
 .log-col h2 {
@@ -223,61 +221,19 @@ button.danger:hover {
   align-items: baseline;
   font-size: 15px;
 }
-
 .log-time {
   color: var(--pink);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-
 .log-what { flex: 1; }
 
-/* on narrow screens, stack the columns */
-@media (max-width: 780px) {
-  .admin-grid { grid-template-columns: 1fr; }
-}
-
-.admin-col,
-.log-col {
-  max-height: calc(100vh - 220px);
-  overflow-y: auto;
-  padding-right: 10px;
-}
-
-@media (max-width: 780px) {
-  .admin-col,
-  .log-col {
-    max-height: none;
-    overflow-y: visible;
-  }
-}
-
-.admin-col,
-.log-col {
-  max-height: calc(100vh - 220px);
-  overflow-y: auto;
-  padding-right: 10px;
-}
-
-@media (max-width: 780px) {
-  .admin-col,
-  .log-col {
-    max-height: none;
-    overflow-y: visible;
-  }
-}
-
-@keyframes scoreFlash {
-  0%   { transform: scale(1);    box-shadow: 6px 6px 0 var(--ink); }
-  30%  { transform: scale(1.04); box-shadow: 10px 10px 0 var(--pink); }
-  100% { transform: scale(1);    box-shadow: 6px 6px 0 var(--ink); }
-}
-
-.team.just-changed {
-  animation: scoreFlash 700ms ease-out;
-}
-
+/* ==========================================================
+   PODIUM
+   (targets both #podium id and .podium class for safety)
+   ========================================================== */
+#podium,
 .podium {
   display: flex;
   gap: 20px;
@@ -299,21 +255,9 @@ button.danger:hover {
   gap: 8px;
   text-align: center;
 }
-
-.podium-slot .rank-label {
-  font-size: 40px;
-  font-weight: 700;
-  letter-spacing: 2px;
-}
-
-.podium-slot .name {
-  font-size: 18px;
-}
-
-.podium-slot .points {
-  font-size: 36px;
-  font-weight: 700;
-}
+.podium-slot .rank-label { font-size: 40px; font-weight: 700; letter-spacing: 2px; }
+.podium-slot .name       { font-size: 18px; }
+.podium-slot .points     { font-size: 36px; font-weight: 700; }
 
 .podium-slot.gold {
   order: 2;
@@ -322,14 +266,12 @@ button.danger:hover {
   border-width: 4px;
   box-shadow: 8px 8px 0 #c9a96e;
 }
-
 .podium-slot.silver {
   order: 1;
   min-height: 210px;
   border-color: #a8a8a8;
   box-shadow: 6px 6px 0 #a8a8a8;
 }
-
 .podium-slot.bronze {
   order: 3;
   min-height: 180px;
@@ -343,7 +285,99 @@ button.danger:hover {
   padding-right: 10px;
 }
 
-/* apply the flash animation to podium slots too */
+/* ==========================================================
+   SCORE-CHANGE FLASH
+   ========================================================== */
+@keyframes scoreFlash {
+  0%   { transform: scale(1);    box-shadow: 6px 6px 0 var(--ink); }
+  30%  { transform: scale(1.04); box-shadow: 10px 10px 0 var(--pink); }
+  100% { transform: scale(1);    box-shadow: 6px 6px 0 var(--ink); }
+}
+.team.just-changed,
 .podium-slot.just-changed {
   animation: scoreFlash 700ms ease-out;
+}
+
+/* ==========================================================
+   RESPONSIVE
+   mobile-first progression: tablet -> phone -> tiny
+   ========================================================== */
+
+/* Tablet (admin stacks, independent scroll off) */
+@media (max-width: 900px) {
+  .admin-grid { grid-template-columns: 1fr; }
+  .admin-col,
+  .log-col {
+    max-height: none;
+    overflow-y: visible;
+  }
+  .wrap:has(.admin-grid) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  .wrap {
+    max-width: 100%;
+    padding: 20px 14px;
+  }
+  .top + .wrap { padding-top: 160px; }
+
+  .top h1 {
+    font-size: 28px;
+    padding: 20px 14px;
+  }
+  h1 { font-size: 32px; margin-bottom: 20px; }
+
+  /* Nav chips smaller and lower to clear shrunken header */
+  .admin-link,
+  .back-link {
+    top: 78px;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  /* Podium: compact but still horizontal (keeps the vibe) */
+  #podium,
+  .podium {
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .podium-slot {
+    padding: 10px 6px;
+    gap: 4px;
+  }
+  .podium-slot.gold   { min-height: 170px; }
+  .podium-slot.silver { min-height: 140px; }
+  .podium-slot.bronze { min-height: 115px; }
+  .podium-slot .rank-label { font-size: 22px; }
+  .podium-slot .name       { font-size: 12px; line-height: 1.15; }
+  .podium-slot .points     { font-size: 22px; }
+
+  /* Team rows */
+  .team {
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+  .rank   { min-width: 28px; margin-right: 8px; }
+  .points { font-size: 20px; }
+
+  /* Add-team form wraps */
+  .add-team { flex-wrap: wrap; }
+
+  /* Rest list takes half the viewport rather than a fixed height */
+  .rest { max-height: 55vh; }
+
+  /* Smaller action buttons on admin rows */
+  button { font-size: 12px; padding: 6px 10px; margin-left: 4px; }
+}
+
+/* Tiny phones (iPhone SE etc) */
+@media (max-width: 380px) {
+  .top h1 { font-size: 22px; }
+  .podium-slot .rank-label { font-size: 18px; }
+  .podium-slot .points     { font-size: 18px; }
+  .podium-slot .name       { font-size: 11px; }
 }
