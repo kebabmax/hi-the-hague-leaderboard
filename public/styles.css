@@ -18,10 +18,18 @@ body {
   min-height: 100vh;
 }
 
-.wrap {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 40px 20px;
+.wrap:has(.admin-grid) {
+  max-width: 1400px;
+  padding-left: 40px;
+  padding-right: 40px;
+  box-sizing: border-box;
+  margin: 0 auto;  /* in case the base .wrap rule lost it */
+}
+
+.top + .wrap {
+  padding-left: 300px;
+  padding-right: 300px;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -228,4 +236,34 @@ button.danger:hover {
 /* on narrow screens, stack the columns */
 @media (max-width: 780px) {
   .admin-grid { grid-template-columns: 1fr; }
+}
+
+.admin-col,
+.log-col {
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+@media (max-width: 780px) {
+  .admin-col,
+  .log-col {
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
+.admin-col,
+.log-col {
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+@media (max-width: 780px) {
+  .admin-col,
+  .log-col {
+    max-height: none;
+    overflow-y: visible;
+  }
 }

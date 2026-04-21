@@ -93,7 +93,20 @@
       logEl.innerHTML = '';
       for (const entry of entries) {
         const d = new Date(entry.when);
-        const time = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const now = new Date();
+const isToday = d.toDateString() === now.toDateString();
+const yesterday = new Date(now);
+yesterday.setDate(now.getDate() - 1);
+const isYesterday = d.toDateString() === yesterday.toDateString();
+
+const hhmm = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+const date = d.toLocaleDateString([], { month: 'short', day: 'numeric' });
+
+let time;
+if (isToday) time = hhmm;
+else if (isYesterday) time = `Yesterday · ${hhmm}`;
+else time = `${date} · ${hhmm}`;
+
         const row = document.createElement('div');
         row.className = 'log-entry';
         const t = document.createElement('div');
