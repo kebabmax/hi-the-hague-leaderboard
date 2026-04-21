@@ -82,9 +82,40 @@
       loadLog();
     }
 
+function consolidate(entries) {
+  const result = [];
+  for (const entry of entries) {
+    const match = entry.what.match(/^(.+?) got ([+-]?\d+) points$/);
+    if (!match) {
+      result.push({ ...entry });
+      continue;
+    }
+    const teamName = match[1];
+    const amount = parseInt(match[2], 10);
+
+    const last = result[result.length - 1];
+    const sameSign = last && last._team === teamName
+      && Math.sign(last._amount) === Math.sign(amount);
+
+    if (sameSign) {
+      last._amount += amount;
+      const sign = last._amount >= 0 ? '+' : '';
+      last.what = `${teamName} got ${sign}${last._amount} points`;
+    } else {
+      result.push({
+        when: entry.when,
+        what: entry.what,
+        _team: teamName,
+        _amount: amount
+      });
+    }
+  }
+  return result;
+}
+
     async function loadLog() {
       const res = await fetch('/api/logs');
-      const entries = await res.json();
+      const entries = consolidate(await res.json());
       const logEl = document.getElementById('log');
       if (!entries.length) {
         logEl.innerHTML = '<div class="log-entry"><div class="log-what">Nothing logged yet.</div></div>';
@@ -122,6 +153,7 @@ else time = `${date} · ${hhmm}`;
     }
 
     load();
+
     loadLog();
     setInterval(loadLog, 3000);
   </script>
