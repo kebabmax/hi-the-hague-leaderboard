@@ -22,7 +22,9 @@ body {
   background: var(--yellow);
   color: var(--ink);
   min-height: 100vh;
+  scrollbar-width: none;
 }
+body::-webkit-scrollbar { display: none; }
 
 /* ==========================================================
    LAYOUT SHELL
