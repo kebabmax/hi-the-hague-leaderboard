@@ -132,14 +132,14 @@ body {
 .top + .wrap {
   padding-top: 195px;
 }
-}
+
 
 body::after {
   content: '';
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 60px;
+  bottom: 10px;
   height: 80px;
   background: var(--yellow);
   z-index: 9;
