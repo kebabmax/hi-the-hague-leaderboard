@@ -267,3 +267,13 @@ button.danger:hover {
     overflow-y: visible;
   }
 }
+
+@keyframes scoreFlash {
+  0%   { transform: scale(1);    box-shadow: 6px 6px 0 var(--ink); }
+  30%  { transform: scale(1.04); box-shadow: 10px 10px 0 var(--pink); }
+  100% { transform: scale(1);    box-shadow: 6px 6px 0 var(--ink); }
+}
+
+.team.just-changed {
+  animation: scoreFlash 700ms ease-out;
+}
